@@ -1,0 +1,173 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMART HOME</title>
+    
+    <div style="float: left;"><img class="logo" src="https://pmo.hcmute.edu.vn/Resources/Images/SubDomain/ssc/logo_spkt.jpg" width="85"/></div>
+    <div id="inftruong">
+        <h2 style="font-family:Arial;font-size: 100%;color: rgb(55, 127, 220);">TRƯỜNG ĐẠI HỌC</h2>
+        <h1 style="font-family:Arial;font-size: 5mm;color:rgb(55, 127, 220) ;">SƯ PHẠM KỸ THUẬT TP. HỒ CHÍ MINH</h1>
+        <hr size="4" width="60%" color="darkblue" style="float: left;"><br>
+        <h2 style="font-family:Arial;font-size: 100%;color:black;">HCMUTE University of Technology and Education</h2>
+    </div>
+    
+</head>
+        <link rel="stylesheet" href="mywebsite.css"> <!--liên kiết file css với file html-->
+<body>
+    <div id="header">  <!--id và class để nhóm các phần tử có cùng kiểu định dạng để ta có thể dễ dàng thay đổi -->
+        <h1 > <center><b>TEAM DHA </b></center> </h1> 
+    </div>
+    <div id="main">  <!--div tạo ra khối và gán cho cái id là main để ta có thể chỉnh các thông số bên file css  -->
+        <div id="top"> <!--chia ra phần trên trong khối main -->
+            <h5 id="nhietdof" ></h5>  <!--gọi ra để gán giá trị đọc từ firebase cho nó -->
+            <h5 id="doamf"></h5>
+
+            <div id="nhietdo"> 
+                <center><h2 > Nhiệt Độ </h2></center> 
+                <h1><img src="nhietdo1.png" id="nd"></h1>
+   
+            </div>
+            <div id="doam">
+                <center><h2 > Độ ẩm </h2></center> 
+                <h1><img src="doam1.png" id="da"></h1>
+                
+            </div>
+        </div>
+        <div id="bootom">   <!--phần dưới trong khối main-->
+            <div id="den">
+                <center>
+                    <img class="av" src="den1.png" id="img"  alt="">
+                </center>
+                <button type="button" id="btn1" class="btn waves-effect waves-lights"><h4>on</h4></button>
+                <button type="button" id="btn2" class="btn waves-effect waves-lights"><h4>off</h4></button><br><br>
+                <center><h3 > Đèn </h3></center> 
+            </div>
+            <div id="quat">
+                <center><img class="av" src="fan_off.png" id="img1" alt="" ></center>
+                <button type="button" id="btn3" class="btn waves-effect waves-lights"><h4>on</h4></button>
+                <button type="button" id="btn4" class="btn waves-effect waves-lights"><h4>off</h4></button><br><br>
+                <center><h3 > Quạt </h3></center> 
+            </div>
+            <div id="chuong">
+                <center><img class="av" src="maybom.png" id="img2" alt="" ></center>
+                <button type="button" id="btn5" class="btn waves-effect waves-lights"><h4>on</h4></button>
+                <button type="button" id="btn6" class="btn waves-effect waves-lights"><h4>off</h4></button><br><br>
+                <center><h3 > Máy Bơm </h3></center> 
+            </div>
+            <div id="may">
+                <center><img class="av" src="dammay.png" id="img3" alt="" ></center>
+                <center><h3 > Thời Tiết </h3></center> 
+            </div>
+        </div>
+    </div>
+
+    <!--conect firebase with website-->
+    <form>
+        <script src="function.js"></script> <!--link file .js with file html-->
+        <!-- The core Firebase JS SDK is always required and must be listed first -->
+        <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-database.js"></script>
+        <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#available-libraries -->
+        <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-analytics.js"></script><!-- lien ket voi functions.js -->
+        <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyBGU1riE5-HtJaZ-fiKoiAaUNhbj0WHTT8",
+  authDomain: "teamdha-12864.firebaseapp.com",
+  projectId: "teamdha-12864",
+  storageBucket: "teamdha-12864.appspot.com",
+  messagingSenderId: "185832308182",
+  appId: "1:185832308182:web:d414226b88eede07c9b877",
+  measurementId: "G-7D8FFQJL67"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+firebase.database().ref("Relay1").on('value', (snapshot) => {
+    let denStatus = snapshot.val();
+    console.log("Đèn status:", denStatus);  // Kiểm tra giá trị từ Firebase
+    if (denStatus === "0") {
+        img.src = 'denon1.png';  // Đèn bật
+    } else {
+        img.src = 'den1.png';    // Đèn tắt
+    }
+});
+firebase.database().ref("Relay2").on('value', (snapshot) => {
+    let quatStatus = snapshot.val();
+    console.log("Quạt status:", quatStatus);  // Kiểm tra giá trị từ Firebase
+    if (quatStatus === "0") {
+        img1.src = 'fan_running.gif';  // Quạt đang chạy
+    } else {
+        img1.src = 'fan_off.png';  // Quạt tắt
+    }
+});
+firebase.database().ref("Relay3").on('value', (snapshot) => {
+    let bomStatus = snapshot.val();
+    console.log("Máy bơm status:", bomStatus);  // Kiểm tra giá trị từ Firebase
+    if (bomStatus === "0") {
+        img2.src = 'maybom.gif';  // Máy bơm đang hoạt động
+    } else {
+        img2.src = 'maybom.png';  // Máy bơm tắt
+    }
+});
+firebase.database().ref("RainSensor").on('value', (snapshot) => {
+    let damStatus = snapshot.val();
+    console.log("đám mây status:", damStatus);  // Kiểm tra giá trị từ Firebase
+    if (damStatus === "0") {
+        img3.src = 'dammay1.png';  //đang mưa
+    } else {
+        img3.src = 'dammay.png';  // không mưa
+    }
+});
+        //functions
+        // make sure that the name in ' ' match with name of your database child
+        var nhietdo = document.getElementById('nhietdof') ; //khai báo biến nhiệt độ. var là kiểu dữ liệu var=int+float+char ...
+        var dbRef = firebase.database().ref().child('Temperature'); //đọc giá trị nhietDo từ firebase
+        
+        var doam = document.getElementById('doamf');
+        var dbRef2 = firebase.database().ref().child('Humidity');   //đọc giá trị doAm từ firebase
+          //đọc giá trị luongMua từ firebase
+        
+        dbRef.on('value', snap => nhietdo.innerText = snap.val());
+        dbRef2.on('value', snap => doam.innerText = snap.val());
+        dbRef3.on('value', snap => luongmua.innerText = snap.val());
+        </script>
+</body>
+
+<!--phần footer phần giới thiệu thông tin liên lạc-->
+<footer> 
+    <table> <!-- thẻ tạo bảng -->
+        <thead> <!--tên mục cột-->  
+         <th>Trần Cao Duong </th>
+            <th> Đặng Thanh Ân</th>
+            <th>Nguyễn Minh Hiếu</th>
+        </thead>
+            <body> <!--nội dung cột--> <!--với lần lượt các thẻ td cho từng nội dung từng cột-->
+                <td ><center> <img class="avatar"  src="duong.jpg"  > <br>
+                    <h4 id="f">
+                        MSSV:22861051 <br>
+                        </center>   
+                     </h4>
+                </td>
+    
+                <td><center><img class="avatar" src="an1.jpg"  ><br>
+                    <h4 id="f">
+                        MSSV:22861048 <br>
+                         </center>   
+                    </h4>          
+                </td>
+    
+                <td><center><img class="avatar" src="hieu.jpg"
+                     ><br>
+                     <h4 id="f">
+                        MSSV:22861054 <br>
+                           
+                    </h4>    </center>       
+                </td>
+            </body>
+    </table>  
+</footer>
+</html>
